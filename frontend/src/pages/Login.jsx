@@ -3,13 +3,30 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Loader, Lock, Mail } from 'lucide-react';
 import Input from '../components/Input';
+import { useAuthStore } from '../store/authStore';
+import toast from 'react-hot-toast';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const isLoading = false;
-    const handleLogin = (e) => {
+    const { login, isLoading, error } = useAuthStore();
+
+    const handleLogin = async (e) => {
         e.preventDefault();
+
+        //validations
+        if (email === "" || password === "") {
+            toast.error("Fill All the Fields");
+            return
+        }
+
+        try {
+            await login(email, password);
+            toast.success("Logged in successfully");
+        } catch (error) {
+            console.log(error)
+        }
     }
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -44,7 +61,7 @@ const Login = () => {
                             Forgot password?
                         </Link>
                     </div>
-                    {/* {error && <p className='text-red-500 font-semibold mb-2'>{error}</p>} */}
+                    {error && <p className='text-red-500 font-semibold mb-2'>{error}</p>}
 
                     <motion.button
                         whileHover={{ scale: 1.02 }}
