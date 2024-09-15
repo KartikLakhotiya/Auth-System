@@ -4,9 +4,22 @@ import crypto from 'crypto';
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
 import { sendPasswordResetEmail, sendResetSuccessEmail, sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
 
+export const checkAuth = async (req, res) => {
+    try {
+        const user = await User.findById(req.userId).select("-password");
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.status(200).json({ success: true, user })
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error, success: false })
+    }
+}
 export const allusers = async (req, res) => {
     try {
-        const users = await User.find().select('-password');
+        const users = await User.find().select("-password");
         // console.log("All Users : \n", users)
         return res.status(200).json({ users })
 
