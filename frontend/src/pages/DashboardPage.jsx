@@ -17,7 +17,7 @@ const DashboardPage = () => {
 			className='max-w-md w-full mx-auto mt-10 p-8 bg-gray-900 bg-opacity-80 backdrop-filter backdrop-blur-lg rounded-xl shadow-2xl border border-gray-800'
 		>
 			<h2 className='text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-600 text-transparent bg-clip-text'>
-				Dashboard
+				User Dashboard
 			</h2>
 
 			<div className='space-y-6'>
@@ -66,7 +66,7 @@ const DashboardPage = () => {
 					onClick={handleLogout}
 					className='w-full py-3 px-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white 
 				font-bold rounded-lg shadow-lg hover:from-green-600 hover:to-emerald-700
-				 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900'
+				 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 focus:ring-offset-gray-900 mt-2'
 				>
 					Logout
 				</motion.button>
