@@ -64,7 +64,7 @@ export const signup = async (req, res) => {
             message: "User created successfully",
             user: {
                 ...user._doc,
-                password:undefined
+                password: undefined
             }
         })
 
@@ -82,7 +82,7 @@ export const verifyEmail = async (req, res) => {
             verificationToken: code,
             verificationTokenExpiresAt: { $gt: Date.now() }
         })
-        console.log(user)
+        // console.log(user)
         if (!user) {
             return res.status(400).json({ success: false, message: "Invalid or expired verification code" })
         }
@@ -120,6 +120,7 @@ export const login = async (req, res) => {
         generateTokenAndSetCookie(res, user._id);
         user.lastLogin = new Date();
         await user.save();
+        console.log(`User ${user.name} logged in.`)
         res.status(200).json({
             success: "true",
             message: "User logged in successfully",
@@ -138,6 +139,7 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
     res.clearCookie("token")
+    console.log(`User Logged Out`);
     res.status(200).json({ success: true, message: "Logged out successfully." })
 }
 
