@@ -19,6 +19,15 @@ const Login = () => {
             return
         }
 
+        //email
+        var atIdx = email.indexOf("@")
+        var dotIdx = email.indexOf(".")
+        if (atIdx > 0 && dotIdx > atIdx + 1 && email.length > dotIdx) { }
+        else {
+            toast.error('Invalid Email Format.')
+            return
+        }
+
         try {
             await login(email, password);
             toast.success("Logged in successfully");
