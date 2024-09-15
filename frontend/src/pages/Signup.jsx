@@ -23,7 +23,6 @@ const Signup = () => {
         }
         try {
             await signup(email, password, name);
-            toast.success("User Registered.")
             navigate("/verify-email")
         } catch (error) {
             console.log(error)
