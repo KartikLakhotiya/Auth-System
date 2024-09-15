@@ -2,7 +2,7 @@ import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
 import crypto from 'crypto';
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
-import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
+import { sendPasswordResetEmail, sendResetSuccessEmail, sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
 
 export const allusers = async (req, res) => {
     try {
@@ -63,7 +63,8 @@ export const verifyEmail = async (req, res) => {
     const { code } = req.body;
     try {
         const user = await User.findOne({
-            verificationToken: code
+            verificationToken: code,
+            verificationTokenExpiresAt: { $gt: Date.now() }
         })
         console.log(user)
         if (!user) {
@@ -143,6 +144,39 @@ export const forgotPassword = async (req, res) => {
         return res.status(200).json({ success: true, message: "Password reset link sent to email" });
 
     } catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error, success: false });
+    }
+}
 
+export const resetPassword = async (req, res) => {
+    try {
+        const { token } = req.params;
+        const { password } = req.body;
+        const user = await User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpiresAt: { $gt: Date.now() }
+        });
+        if (!user) {
+            return res.status(400).json({ success: false, message: "Invalid or expired user reset token." })
+        }
+
+        // update password
+        const hashedPassword = await bcrypt.hash(password, 10);
+        user.password = hashedPassword;
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpiresAt = undefined;
+
+        await user.save();
+
+        await sendResetSuccessEmail(user.email);
+
+        return res.status(200).json({ success: true, message: "Password is reset successfully" });
+
+
+    }
+    catch (error) {
+        console.log(error)
+        res.status(500).json({ message: error, success: false });
     }
 }
