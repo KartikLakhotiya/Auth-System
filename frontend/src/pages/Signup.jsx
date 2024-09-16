@@ -31,9 +31,10 @@ const Signup = () => {
             return
         }
 
-        
+
         try {
             await signup(email, password, name);
+            toast.success("Verification code sent to email.")
             navigate("/verify-email")
         } catch (error) {
             console.log(error)

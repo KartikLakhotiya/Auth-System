@@ -1,7 +1,9 @@
 import { create } from "zustand";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const API_URL = "http://localhost:5000/api/auth"
+// const API_URL = "https://auth-system-gbgc.onrender.com/api/auth"
 axios.defaults.withCredentials = true;
 export const useAuthStore = create((set) => ({
     user: null,
@@ -23,9 +25,13 @@ export const useAuthStore = create((set) => ({
     },
 
     login: async (email, password) => {
+        toast.loading('Logging in', { id: 'login-toast' });
         set({ isLoading: true, error: null });
         try {
             const response = await axios.post(`${API_URL}/login`, { email, password });
+            if (response.status === 200) {
+                toast.success('Logged in Successfully', { id: 'login-toast' });
+            }
             set({ user: response.data.user, isAuthenticated: true, isLoading: false })
         } catch (error) {
             set({ error: error.response.data.message || "Error signing up", isLoading: false });
@@ -34,9 +40,14 @@ export const useAuthStore = create((set) => ({
     },
 
     logout: async () => {
+        toast.loading('Loggin Out', { id: 'logout-toast' });
         set({ isLoading: true, error: null });
         try {
-            await axios.post(`${API_URL}/logout`);
+            const response = await axios.post(`${API_URL}/logout`);
+            // console.log(response);
+            if (response.status === 200) {
+                toast.success('Logged out successfully.', { id: 'logout-toast' });
+            }
             set({ user: null, isAuthenticated: false, error: null, isLoading: false });
         } catch (error) {
             set({ error: "Error logging out", isLoading: false });
