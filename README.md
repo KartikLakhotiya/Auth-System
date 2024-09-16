@@ -2,7 +2,7 @@
 
 This is a full-stack authentication system built with the following technologies:
 
-- **Frontend**: React, Vite, Tailwind CSS, Framer Motion (for animations)
+- **Frontend**: React, Vite, Tailwind CSS, Framer Motion (for animations), Zustand (for state management)
 - **Backend**: Node.js, Express.js, MongoDB
 - **Authentication**: JSON Web Token (JWT)
 
