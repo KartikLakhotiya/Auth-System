@@ -6,6 +6,10 @@ This is a full-stack authentication system built with the following technologies
 - **Backend**: Node.js, Express.js, MongoDB
 - **Authentication**: JSON Web Token (JWT)
 
+## Live Preview 
+
+Click this Link : https://auth-system-sigma.vercel.app
+
 ## Features
 
 - User Registration: Users can create an account by providing their email and password.
@@ -80,10 +84,11 @@ npm run dev
 
 The backend server will run at ```http://localhost:5000``` and the frontend server will run at ```http://localhost:5173```.
 
-## Online Deployment
+## Deployment Note
 
-Deploying this project doesn't makes sense as Mailtrap only allows to send mails to the account through I've signed up for. Demo domains can only be used to send emails to account owners. It only allows to send mail to other email IDs if you have a domain registered with Mailtrap. So, other users cannot use the features of this project because of the restriction of Mailtrap. If you have a domain then you should definitely deploy this project.
-Since, I do not have a domain I will not deploy this project on Vercel or any other platform.
+This project has been successfully deployed online as I have a registered domain. However, if you do not have a domain, please be aware that Mailtrap only allows sending emails to accounts associated with your Mailtrap account. As a result, deploying this project without a registered domain may not make sense, since you won’t be able to send emails to other users.
+
+If you have a domain, feel free to deploy the project to leverage its full email functionality!
 
 ## Contributing
 
