@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const TOKEN = "257f86a9788e488e3fcc4f9d13604ea1";
+const TOKEN = "e59cc3bee0d6eea87205046555a6cd5b";
 const ENDPOINT = process.env.MAILTRAP_ENDPOINT;
 
 export const mailtrapClient = new MailtrapClient({
@@ -12,6 +12,6 @@ export const mailtrapClient = new MailtrapClient({
 });
 
 export const sender = {
-    email: "mailtrap@demomailtrap.com",
-    name: "Kartik",
+    email: "mailtrap@svtrst.me",
+    name: "Auth System",
 };
