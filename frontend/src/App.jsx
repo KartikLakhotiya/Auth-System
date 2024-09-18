@@ -42,8 +42,8 @@ function App() {
   useEffect(() => {
     checkAuth();
   }, [checkAuth])
-  console.log("isAuthencticated", isAuthenticated);
-  console.log("User", user)
+  // console.log("isAuthencticated", isAuthenticated);
+  // console.log("User", user)
 
   if (isCheckingAuth) {
     return <LoadingSpinner />

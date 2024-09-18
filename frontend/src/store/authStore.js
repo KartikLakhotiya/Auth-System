@@ -25,12 +25,17 @@ export const useAuthStore = create((set) => ({
     },
 
     login: async (email, password) => {
-        toast.loading('Logging in', { id: 'login-toast' });
+        // toast.loading('Logging in', { id: 'login-toast' });
         set({ isLoading: true, error: null });
         try {
             const response = await axios.post(`${API_URL}/login`, { email, password });
+            // console.log(response)
             if (response.status === 200) {
                 toast.success('Logged in Successfully', { id: 'login-toast' });
+            }
+            else if (response.code === "ERR_BAD_REQUEST") {
+                console.log("error");
+                toast.error('Invalid Credentials', { id: 'login-toast' });
             }
             set({ user: response.data.user, isAuthenticated: true, isLoading: false })
         } catch (error) {
