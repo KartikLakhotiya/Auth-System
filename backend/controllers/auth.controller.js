@@ -6,6 +6,7 @@ import { sendPasswordResetEmail, sendResetSuccessEmail, sendVerificationEmail, s
 
 export const checkAuth = async (req, res) => {
     try {
+        console.log(req.userId);
         const user = await User.findById(req.userId).select("-password");
         if (!user) {
             return res.status(404).json({ message: "User not found" });
@@ -20,7 +21,8 @@ export const checkAuth = async (req, res) => {
 export const allusers = async (req, res) => {
     try {
         const users = await User.find().select("-password");
-        // console.log("All Users : \n", users)
+        const name = users.map((item) => item.name);
+        console.log("All Users : \n", name);
         return res.status(200).json({ users })
 
     } catch (error) {
@@ -55,7 +57,7 @@ export const signup = async (req, res) => {
         // jwt 
         generateTokenAndSetCookie(res, user._id);
 
-        await sendVerificationEmail(user.email, verificationToken);
+        // await sendVerificationEmail(user.email, verificationToken);
 
         await user.save();
         console.log(`User created ${user.name}`)
@@ -123,7 +125,7 @@ export const login = async (req, res) => {
         console.log(`User ${user.name} logged in.`)
         res.status(200).json({
             success: "true",
-            message: "User logged in successfully",
+            message: `User ${user.name} Logged in Successfully`,
             user: {
                 ...user._doc,
                 password: undefined,
@@ -138,14 +140,15 @@ export const login = async (req, res) => {
 }
 
 export const logout = async (req, res) => {
+    const loggedInUser = await User.findById(req.userId).select("-password");
     res.clearCookie("token", {
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
         sameSite: 'None',
         path: '/'
     })
-    console.log(`User Logged Out`);
-    res.status(200).json({ success: true, message: "Logged out successfully." })
+    console.log(`User ${loggedInUser.name} Logged Out`);
+    res.status(200).json({ success: true, message: `User ${loggedInUser.name}Logged out successfully.` });
 }
 
 export const forgotPassword = async (req, res) => {
@@ -162,7 +165,7 @@ export const forgotPassword = async (req, res) => {
         await user.save();
 
         //send email
-        await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`)
+        await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL} / reset - password / ${resetToken}`)
 
         return res.status(200).json({ success: true, message: "Password reset link sent to email" });
 
