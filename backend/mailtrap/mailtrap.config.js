@@ -1,10 +1,15 @@
-import { MailtrapClient } from 'mailtrap';
 import dotenv from 'dotenv';
+import path from 'path';
+import { MailtrapClient } from 'mailtrap';
 
-dotenv.config();
+dotenv.config({ path: path.resolve('../.env') });
 
-const TOKEN = "e59cc3bee0d6eea87205046555a6cd5b";
+const TOKEN = process.env.MAILTRAP_TOKEN;
 const ENDPOINT = process.env.MAILTRAP_ENDPOINT;
+
+if (!TOKEN || !ENDPOINT) {
+    console.error('MAILTRAP_TOKEN or MAILTRAP_ENDPOINT is not defined in .env');
+}
 
 export const mailtrapClient = new MailtrapClient({
     endpoint: ENDPOINT,
