@@ -20,9 +20,8 @@ const Login = () => {
         }
 
         //email
-        var atIdx = email.indexOf("@");
-        var dotIdx = email.lastIndexOf(".");
-        if (atIdx > 0 && dotIdx > atIdx + 1 && email.length > dotIdx + 1) {
+        const regex = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+        if (regex.test(email) {
             // Email format is valid
         } else {
             toast.error('Invalid Email Format.');
