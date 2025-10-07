@@ -23,12 +23,12 @@ const Signup = () => {
         }
 
         //email
-        var atIdx = email.indexOf("@")
-        var dotIdx = email.indexOf(".")
-        if (atIdx > 0 && dotIdx > atIdx + 1 && email.length > dotIdx) { }
-        else {
-            toast.error('Invalid Email Format.')
-            return
+        const regex = /^[a-zA-Z0-9._%+-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/;
+        if (regex.test(email)) {
+            // Email format is valid
+        } else {
+            toast.error('Invalid Email Format.');
+            return;
         }
 
 
